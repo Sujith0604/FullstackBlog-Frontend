@@ -1,15 +1,49 @@
-import { useRef } from "react";
-import { NavLink } from "react-router-dom";
+import axios from "../utils/axios";
+import { useRef, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const nameRef = useRef();
   const emaiRef = useRef();
   const passwordRef = useRef();
+  const [errormsg, setErrorMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  };
+    const username = nameRef.current.value.trim();
+    const email = emaiRef.current.value.trim();
+    const password = passwordRef.current.value.trim();
 
+    try {
+      setIsLoading(true);
+      setErrorMsg("");
+      if (!username || !email || !password) {
+        setErrorMsg("Please fill all the fields");
+        return;
+      }
+      const res = await axios.post("/user", {
+        username,
+        email,
+        password,
+      });
+      const data = res.data;
+      console.log("Data:", data);
+      if (!res.statusText === "OK") {
+        setErrorMsg("Invalid email or password");
+        return;
+      }
+      setIsLoading(false);
+      nameRef.current.value = "";
+      emaiRef.current.value = "";
+      passwordRef.current.value = "";
+      navigate("/");
+    } catch (error) {
+      setErrorMsg(error.message);
+      setIsLoading(false);
+    }
+  };
   return (
     <div className=" bg-blue-300 w-[100%] h-screen flex items-center justify-center">
       <div className=" bg-white flex flex-col gap-5 p-4 rounded-md">
@@ -51,13 +85,14 @@ const Register = () => {
           </div>
 
           <button className=" bg-blue-400 p-2 rounded-md" type="submit">
-            Sign up
+            {isLoading ? "Loading" : "Register"}
           </button>
         </form>
         <div className="flex justify-center gap-2">
           <p>Already have an account?</p>
           <NavLink to="#">Login</NavLink>
         </div>
+        {errormsg && <p className=" bg-red-400">{errormsg}</p>}
       </div>
     </div>
   );

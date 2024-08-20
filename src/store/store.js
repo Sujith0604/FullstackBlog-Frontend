@@ -4,8 +4,8 @@ import userSlice from "../slices/userSlice";
 
 const store = configureStore({
   reducer: {
-    adminReducer: userSlice,
-    blogReducer: blogSlice,
+    user: userSlice,
+    blog: blogSlice,
   },
   // Add any middleware here
 });
