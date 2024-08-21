@@ -2,9 +2,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { currentUser } = useSelector((state) => state.user);
 
   const components = () => {
     return (
@@ -31,12 +34,27 @@ const Header = () => {
             MY-BLOGS
           </li>
         </NavLink>
-
-        <NavLink to="/login">
-          <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer transition">
-            LOGIN
-          </li>
-        </NavLink>
+        {currentUser ? (
+          <>
+            <NavLink to="/dashboard">
+              <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer transition">
+                DASHBOARD
+              </li>
+            </NavLink>
+            <img
+              className=" h-[50px] rounded-full "
+              src={currentUser.profileImage}
+            />
+            <NavLink to={"/dashboard?tab=profile"}>Profile</NavLink>
+            <button>Logout</button>
+          </>
+        ) : (
+          <NavLink to="/login">
+            <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer transition">
+              LOGIN
+            </li>
+          </NavLink>
+        )}
       </ul>
     );
   };
@@ -65,17 +83,28 @@ const Header = () => {
                 CREATE
               </li>
             </NavLink>
-            <NavLink to="/dashboard">
-              <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer transition">
-                DASHBOARD
-              </li>
-            </NavLink>
 
-            <NavLink to="/login">
-              <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer transition">
-                LOGIN
-              </li>
-            </NavLink>
+            {currentUser ? (
+              <>
+                <NavLink to="/dashboard">
+                  <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer transition">
+                    DASHBOARD
+                  </li>
+                </NavLink>
+                <img
+                  className=" h-[50px] rounded-full "
+                  src={currentUser.profileImage}
+                />
+                <NavLink to={"/dashboard?tab=profile"}>Profile</NavLink>
+                <button>Logout</button>
+              </>
+            ) : (
+              <NavLink to="/login">
+                <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer transition">
+                  LOGIN
+                </li>
+              </NavLink>
+            )}
           </ul>
         </section>
         <section className="md:hidden transition">
