@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { signInFailure, signInStart, signInSuccess } from "../slices/userSlice";
+import OAuth from "../components/OAuth";
 
 const Login = () => {
   const emaiRef = useRef();
@@ -85,7 +86,9 @@ const Login = () => {
             <button className=" bg-blue-400 p-2 rounded-md" type="submit">
               {loading ? "Loading..." : "Login"}
             </button>
+            <OAuth />
           </form>
+
           {error && <p className="text-red-500">{error}</p>}
           <div className="flex justify-center gap-2">
             <p>Dont have an account?</p>
