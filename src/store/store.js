@@ -1,13 +1,30 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import blogSlice from "../slices/blogSlice";
 import userSlice from "../slices/userSlice";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-const store = configureStore({
-  reducer: {
-    user: userSlice,
-    blog: blogSlice,
-  },
-  // Add any middleware here
+// as the redux states will become to the initial state for each and every refresh we use react persist for persisting the library
+
+// as there are many reducers we can use combine reducers
+
+const rootReducer = combineReducers({
+  user: userSlice,
+  blog: blogSlice,
 });
 
-export default store;
+const persistConfig = {
+  key: "root",
+  version: 1,
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+});
+export const persistor = persistStore(store); // to access the persisted state in the app
