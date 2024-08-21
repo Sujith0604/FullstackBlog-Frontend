@@ -17,6 +17,7 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  logoutSuccess,
 } from "../slices/userSlice";
 
 const DashProfile = () => {
@@ -137,6 +138,20 @@ const DashProfile = () => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      const res = await axios.post("/user/logout");
+      console.log(res);
+      const data = await res.data;
+      if (!res.statusText === "OK") {
+        console.log("Error logging out");
+      }
+      dispatch(logoutSuccess());
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className=" bg-blue-600 w-screen">
       <form onClick={handleSubmit} className=" flex flex-col gap-2">
@@ -188,6 +203,7 @@ const DashProfile = () => {
         <button onClick={() => handleDelete(currentUser._id)}>
           Delete Account
         </button>
+        <button onClick={handleLogout}>Logout Account</button>
       </div>
       {uploadSucess && <p className="text-green-500">{uploadSucess}</p>}
       {uploadError && <p className="text-red-500">{uploadError}</p>}

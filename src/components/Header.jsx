@@ -2,12 +2,30 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "../utils/axios";
+import { logoutSuccess } from "../slices/userSlice";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { currentUser } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    try {
+      const res = await axios.post("/user/logout");
+      console.log(res);
+      const data = await res.data;
+      if (!res.statusText === "OK") {
+        console.log("Error logging out");
+      }
+      dispatch(logoutSuccess());
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const components = () => {
     return (
@@ -46,7 +64,7 @@ const Header = () => {
               src={currentUser.profileImage}
             />
             <NavLink to={"/dashboard?tab=profile"}>Profile</NavLink>
-            <button>Logout</button>
+            <button onClick={handleLogout}>Logout</button>
           </>
         ) : (
           <NavLink to="/login">
@@ -96,7 +114,7 @@ const Header = () => {
                   src={currentUser.profileImage}
                 />
                 <NavLink to={"/dashboard?tab=profile"}>Profile</NavLink>
-                <button>Logout</button>
+                <button onClick={handleLogout}>Logout</button>
               </>
             ) : (
               <NavLink to="/login">
