@@ -99,7 +99,7 @@ const Register = () => {
           </form>
           <div className="flex justify-center gap-2">
             <p>Already have an account?</p>
-            <NavLink to="#">Login</NavLink>
+            <NavLink to="/login">Login</NavLink>
           </div>
           {errormsg && <p className=" bg-red-400">{errormsg}</p>}
         </div>

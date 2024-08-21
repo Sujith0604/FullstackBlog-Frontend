@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { app } from "../firebase";
 import {
   getStorage,
@@ -7,18 +7,34 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import axios from "../utils/axios";
+import {
+  updateStart,
+  updateSuccess,
+  updateFailure,
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+} from "../slices/userSlice";
 
 const DashProfile = () => {
   const { currentUser } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+
+  const [formData, setFormData] = useState({});
 
   const [imageFile, setImageFile] = useState("");
   const [imageURL, setImageURL] = useState("");
   const filePickerRef = useRef();
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
   const [imageFileUploadError, setImageFileUploadError] = useState(null);
+  const [imageSucceeded, setImageSucceeded] = useState(false);
+
+  const [uploadSucess, setUploadSucess] = useState("");
+  const [uploadError, setUploadError] = useState("");
 
   console.log(imageFileUploadError, imageFileUploadProgress);
 
@@ -37,6 +53,7 @@ const DashProfile = () => {
   }, [imageFile]);
 
   const updateImage = async () => {
+    setImageSucceeded(true);
     const storage = getStorage(app);
     const fileName = new Date().getTime() + imageFile.name;
 
@@ -55,6 +72,7 @@ const DashProfile = () => {
         console.error("Upload error: ", error);
         setImageFileUploadError(error.message);
         setImageFileUploadProgress(null);
+        setImageSucceeded(false);
         setImageURL(null);
       },
       () => {
@@ -62,14 +80,66 @@ const DashProfile = () => {
         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
           console.log("Image uploaded to: ", downloadURL);
           setImageURL(downloadURL);
+          setFormData({ ...formData, profileImage: imageURL });
+
+          setImageSucceeded(false);
         });
       }
     );
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setUploadError("");
+    setUploadSucess("");
+    if (Object.keys(formData).length === 0) {
+      setUploadError("No changes in the field");
+      return;
+    }
+    if (imageSucceeded) {
+      setUploadError("Image is uploading");
+      return;
+    }
+    try {
+      dispatch(updateStart());
+      const res = await axios.put(`/user/${currentUser._id}`, formData);
+      console.log(res);
+      if (!res.statusText === "OK") {
+        dispatch(updateFailure("Error updating"));
+        setUploadError("Error updating");
+      }
+      const data = await res.data;
+      dispatch(updateSuccess(data.rest));
+      setUploadSucess("Uploaded the changes");
+    } catch (error) {
+      dispatch(updateFailure(error.message));
+    }
+  };
+
+  const handleDelete = async (id) => {
+    dispatch(deleteUserStart());
+    try {
+      const res = await axios.delete(`/user/${id}`);
+      console.log(res);
+      if (!res.statusText === "OK") {
+        dispatch(deleteUserFailure("Error deleting"));
+      }
+      const data = await res.data;
+      dispatch(deleteUserSuccess(data));
+      alert("User deleted successfully");
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
+
   return (
     <div className=" bg-blue-600 w-screen">
-      <form className=" flex flex-col gap-2">
+      <form onClick={handleSubmit} className=" flex flex-col gap-2">
         <input
           type="file"
           accept="image/*"
@@ -96,22 +166,31 @@ const DashProfile = () => {
           type="text"
           placeholder="Enter your name"
           defaultValue={currentUser.username}
+          name="username"
+          onChange={handleChange}
         />
         <input
           type="email"
           placeholder="Enter your email"
           defaultValue={currentUser.email}
+          name="email"
+          onChange={handleChange}
         />
         <input
           type="password"
           placeholder="Enter your password"
-          defaultValue="sadadadad"
+          name="password"
+          onChange={handleChange}
         />
         <button type="submit">Update Profile</button>
       </form>
       <div>
-        <button>Delete Account</button>
+        <button onClick={() => handleDelete(currentUser._id)}>
+          Delete Account
+        </button>
       </div>
+      {uploadSucess && <p className="text-green-500">{uploadSucess}</p>}
+      {uploadError && <p className="text-red-500">{uploadError}</p>}
     </div>
   );
 };
