@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 
 const DashSidebar = () => {
+  const { currentUser } = useSelector((state) => state.user);
+
   const location = useLocation();
   const [tab, setTab] = useState("");
   useEffect(() => {
@@ -18,12 +21,20 @@ const DashSidebar = () => {
           <li>
             <NavLink to={"/dashboard?tab=profile"}>
               {tab === "profile" ? (
-                <p className=" bg-slate-400">Profile</p>
+                <p className=" bg-slate-400">
+                  Profile{" "}
+                  {currentUser.isAdmin ? <span>Admin</span> : <span>User</span>}
+                </p>
               ) : (
                 <p>Profile</p>
               )}
             </NavLink>
           </li>
+          {currentUser.isAdmin && (
+            <li>
+              <NavLink to={"/dashboard?tab=posts"}>Post</NavLink>
+            </li>
+          )}
           <li>Logout</li>
         </ul>
       </aside>

@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import LoadingPage from "./Pages/LoadingPage";
 import PrivateRoute from "./components/PrivateRoute";
+import AdminRoute from "./components/AdminRoute";
 
 const Dashboard = lazy(() => import("./Pages/Dashboard"));
 const Myblogs = lazy(() => import("./Pages/Myblogs"));
@@ -21,7 +22,11 @@ const App = () => {
         <Route element={<AppLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/blog" element={<Blog />} />
-          <Route path="/addblog" element={<AddBlog />} />
+
+          <Route element={<AdminRoute />}>
+            <Route path="/addblog" element={<AddBlog />} />
+          </Route>
+
           <Route path="/myblog" element={<Myblogs />} />
           <Route path="/updateblog/:id" element={<UpdateBlog />} />
           <Route element={<PrivateRoute />}>

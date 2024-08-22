@@ -19,6 +19,7 @@ import {
   deleteUserSuccess,
   logoutSuccess,
 } from "../slices/userSlice";
+import { NavLink } from "react-router-dom";
 
 const DashProfile = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -78,11 +79,10 @@ const DashProfile = () => {
       },
       () => {
         // Handle successful uploads on complete
-        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log("Image uploaded to: ", downloadURL);
           setImageURL(downloadURL);
           setFormData({ ...formData, profileImage: imageURL });
-
           setImageSucceeded(false);
         });
       }
@@ -205,6 +205,11 @@ const DashProfile = () => {
         </button>
         <button onClick={handleLogout}>Logout Account</button>
       </div>
+      {currentUser.isAdmin && (
+        <NavLink to="/addblog">
+          <button className=" bg-red-400 px-4 py-2">Create Blog</button>
+        </NavLink>
+      )}
       {uploadSucess && <p className="text-green-500">{uploadSucess}</p>}
       {uploadError && <p className="text-red-500">{uploadError}</p>}
     </div>
