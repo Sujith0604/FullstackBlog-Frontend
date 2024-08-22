@@ -41,6 +41,17 @@ const DashPost = () => {
     }
   };
 
+  const handleDelete = async (blogId, id) => {
+    alert("Are you sure you want to delete the posts?");
+    try {
+      const res = await axios.delete(`/blog/${blogId}/${id}`);
+      alert("Deleted successfully");
+      setUserBlogs((prev) => prev.filter((blog) => blog._id !== blogId));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div>
       {currentUser.isAdmin && userBlogs.length > 0
@@ -53,11 +64,14 @@ const DashPost = () => {
 
                 <p>{new Date(blog.createdAt).toLocaleDateString()}</p>
                 <p>{blog.content}</p>
+                <p>{blog.category}</p>
                 <NavLink to={`/blog/${blog.slug}`}>
                   <img className="h-[100px]" src={blog.image} />
                 </NavLink>
                 <NavLink to={`/updateblog/${blog._id}`}>Update</NavLink>
-                <button>Delete</button>
+                <button onClick={() => handleDelete(blog._id, currentUser._id)}>
+                  Delete
+                </button>
               </div>
               {showmore && <button onClick={handleShowmore}>Load More</button>}
             </>
