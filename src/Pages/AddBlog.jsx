@@ -86,7 +86,7 @@ const AddBlog = () => {
         console.log("Error creating blog");
         return;
       }
-      navigate(`/post/${data.slug}`);
+      navigate(`/blog/${data.slug}`);
     } catch (error) {
       console.log(error);
     }
