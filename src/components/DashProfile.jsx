@@ -153,7 +153,7 @@ const DashProfile = () => {
   };
 
   return (
-    <div className=" bg-blue-600 w-screen">
+    <div className="md:min-h-screen flex flex-col gap-5 items-center justify-center">
       <form onClick={handleSubmit} className=" flex flex-col gap-2">
         <input
           type="file"
@@ -171,43 +171,63 @@ const DashProfile = () => {
           ) : ( */}
           <img
             onClick={() => filePickerRef.current.click()}
-            className=" h-[220px] rounded-full"
+            className=" h-[200px] rounded-full"
             src={imageURL || currentUser.profileImage}
           />
           {/* )} */}
         </div>
 
-        <input
-          type="text"
-          placeholder="Enter your name"
-          defaultValue={currentUser.username}
-          name="username"
-          onChange={handleChange}
-        />
-        <input
-          type="email"
-          placeholder="Enter your email"
-          defaultValue={currentUser.email}
-          name="email"
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          placeholder="Enter your password"
-          name="password"
-          onChange={handleChange}
-        />
-        <button type="submit">Update Profile</button>
+        <div className=" flex flex-col">
+          <label className=" font-semibold">Username</label>
+
+          <input
+            type="text"
+            placeholder="Enter your name"
+            className=" p-2 border rounded-md"
+            defaultValue={currentUser.username}
+            name="username"
+            onChange={handleChange}
+          />
+        </div>
+        <div className=" flex flex-col">
+          <label className=" font-semibold">Email</label>
+          <input
+            type="email"
+            className=" p-2 border rounded-md"
+            placeholder="Enter your email"
+            defaultValue={currentUser.email}
+            name="email"
+            onChange={handleChange}
+          />
+        </div>
+        <div className=" flex flex-col">
+          <label className=" font-semibold">Password</label>
+          <input
+            type="password"
+            className=" p-2 border rounded-md"
+            placeholder="Enter your password"
+            name="password"
+            onChange={handleChange}
+          />
+        </div>
+        <button className=" bg-green-400 px-4 py-2" type="submit">
+          Update Profile
+        </button>
       </form>
-      <div>
-        <button onClick={() => handleDelete(currentUser._id)}>
+      <div className=" flex flex-col gap-5">
+        <button
+          className=" bg-red-400 px-4 py-2"
+          onClick={() => handleDelete(currentUser._id)}
+        >
           Delete Account
         </button>
-        <button onClick={handleLogout}>Logout Account</button>
+        <button className=" bg-red-400 px-4 py-2" onClick={handleLogout}>
+          Logout Account
+        </button>
       </div>
       {currentUser.isAdmin && (
         <NavLink to="/addblog">
-          <button className=" bg-red-400 px-4 py-2">Create Blog</button>
+          <button className=" bg-green-400 px-4 py-2">Create Blog</button>
         </NavLink>
       )}
       {uploadSucess && <p className="text-green-500">{uploadSucess}</p>}

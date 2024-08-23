@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import DashSidebar from "../components/DashSidebar";
 import DashProfile from "../components/DashProfile";
 import DashPost from "../components/DashPost";
+import DashUsers from "../components/DashUsers";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -15,12 +16,15 @@ const Dashboard = () => {
     }
   }, [location.search]);
   return (
-    <div className=" flex flex-row">
-      <div>
+    <div className=" flex md:flex-row flex-col w-[100%] gap-5 md:gap-0">
+      <div className=" md:w-[15%] md:min-h-screen">
         <DashSidebar />
       </div>
-      {tab === "profile" && <DashProfile />}
-      {tab === "posts" && <DashPost />}
+      <div className="md:w-[85%] md:min-h-screen">
+        {tab === "profile" && <DashProfile />}
+        {tab === "posts" && <DashPost />}
+        {tab === "users" && <DashUsers />}
+      </div>
     </div>
   );
 };

@@ -3,17 +3,19 @@ import axios from "../utils/axios";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
-const DashPost = () => {
+const DashUsers = () => {
   const { currentUser } = useSelector((state) => state.user);
 
-  const [userBlogs, setUserBlogs] = useState([]);
+  const [users, setUsers] = useState([]);
   const [showmore, setShowmore] = useState(true);
 
-  const getAllBlogs = async () => {
-    const res = await axios.get(`/blog?userId=${currentUser._id}`);
-    const data = await res.data.blogs;
+  console.log(users);
 
-    setUserBlogs(data);
+  const getAllUsers = async () => {
+    const res = await axios.get("/user");
+    const data = await res.data.Allusers;
+
+    setUsers(data);
     if (data.length < 9) {
       setShowmore(false);
     }
@@ -21,18 +23,16 @@ const DashPost = () => {
 
   useEffect(() => {
     if (currentUser.isAdmin) {
-      getAllBlogs();
+      getAllUsers();
     }
   }, [currentUser._id]);
 
   const handleShowmore = async () => {
     try {
-      const res = await axios.get(
-        `/blog?userId=${currentUser._id}&startIndex=${userBlogs.length}`
-      );
-      const data = await res.data.blogs;
+      const res = await axios.get(`/user?startIndex=${users.length}`);
+      const data = await res.data.users;
       console.log(data);
-      setUserBlogs((prev) => [...prev, ...data]);
+      setUsers((prev) => [...prev, ...data]);
       if (data.length < 9) {
         setShowmore(false);
       }
@@ -41,12 +41,12 @@ const DashPost = () => {
     }
   };
 
-  const handleDelete = async (blogId, id) => {
+  const handleDelete = async (userId, id) => {
     alert("Are you sure you want to delete the posts?");
     try {
-      const res = await axios.delete(`/blog/${blogId}/${id}`);
+      const res = await axios.delete(`/user/${userId}/${id}`);
       alert("Deleted successfully");
-      setUserBlogs((prev) => prev.filter((blog) => blog._id !== blogId));
+      setUsers((prev) => prev.filter((user) => user._id !== userId));
     } catch (error) {
       console.log(error.message);
     }
@@ -54,53 +54,55 @@ const DashPost = () => {
 
   return (
     <div>
-      {currentUser.isAdmin && userBlogs.length > 0 ? (
+      {currentUser.isAdmin && users.length > 0 ? (
         <>
           {" "}
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead>
               <tr>
                 <th scope="col" className="px-6 py-3">
-                  Title
-                </th>
-                <th scope="col" className="px-6 py-3">
                   Date
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Content
+                  Username
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Category
+                  Email
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Image
+                  Admin
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Action
+                  User Image
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Delete
                 </th>
               </tr>
             </thead>
             <tbody>
-              {userBlogs.map((blog) => (
+              {users.map((user) => (
                 <tr
-                  key={blog._id}
+                  key={user._id}
                   className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
                 >
-                  <td className="px-6 py-4">{blog.title}</td>
                   <td className="px-6 py-4">
-                    {new Date(blog.createdAt).toLocaleDateString()}
+                    {new Date(user.createdAt).toLocaleDateString()}
                   </td>
-                  <td className="px-6 py-4">{blog.content}</td>
-                  <td className="px-6 py-4">{blog.category}</td>
+                  <td className="px-6 py-4">{user.username}</td>
+                  <td className="px-6 py-4">{user.email}</td>
                   <td className="px-6 py-4">
-                    <NavLink to={`/blog/${blog.slug}`}>
-                      <img className="h-[50px] w-[50px]" src={blog.image} />
-                    </NavLink>
+                    {user.isAdmin ? "Admin" : "User"}
                   </td>
-                  <td className="px-6 py-4 flex gap-2">
-                    <NavLink to={`/updateblog/${blog._id}`}>Update</NavLink>
+                  <td className="px-6 py-4">
+                    <img
+                      className="h-[50px] w-[50px]"
+                      src={user.profileImage}
+                    />
+                  </td>
+                  <td className="px-6 py-4 ">
                     <button
-                      onClick={() => handleDelete(blog._id, currentUser._id)}
+                      onClick={() => handleDelete(user._id, currentUser._id)}
                     >
                       Delete
                     </button>
@@ -116,4 +118,4 @@ const DashPost = () => {
   );
 };
 
-export default DashPost;
+export default DashUsers;

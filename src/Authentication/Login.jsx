@@ -46,7 +46,7 @@ const Login = () => {
   };
 
   return (
-    <div className=" bg-blue-300 w-[100%] s flex flex-col md:flex-row items-center justify-around ">
+    <div className=" w-[100%] s flex flex-col md:flex-row items-center justify-around ">
       <div className="md:w-[50%] px-4 flex flex-col gap-5">
         <h1 className=" text-5xl font-bold">Blog website</h1>
         <p className=" text-xl font-thin">
@@ -54,17 +54,19 @@ const Login = () => {
         </p>
       </div>
       <div className=" flex items-center justify-center md:w-[50%] px-2">
-        <div className="bg-white flex flex-col gap-5 p-4 rounded-md">
+        <div className="bg-white flex flex-col gap-5 p-4 rounded-md w-[500px]">
           <div className=" flex flex-col gap-5">
-            <div className=" font-bold text-xl">LOGO</div>
+            <div className=" font-bold text-3xl">BLOG WEBSITE</div>
             <div className=" flex flex-col gap-2">
               <h2 className=" text-xl font-semibold">Welcome back!</h2>
-              <p>Please enter your email and password to login.</p>
+              <p className=" font-thin">
+                Please enter your email and password to login.
+              </p>
             </div>
           </div>
           <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-            <div className=" flex flex-col gap-2">
-              <label>Email</label>
+            <div className=" flex flex-col">
+              <label className=" font-semibold">Email</label>
               <input
                 className=" p-2 border rounded-md"
                 type="email"
@@ -73,8 +75,8 @@ const Login = () => {
               />
             </div>
 
-            <div className=" flex flex-col gap-2">
-              <label>Password:</label>
+            <div className=" flex flex-col">
+              <label className=" font-semibold">Password:</label>
               <input
                 className=" p-2 border rounded-md"
                 type="password"
@@ -90,9 +92,11 @@ const Login = () => {
           </form>
 
           {error && <p className="text-red-500">{error}</p>}
-          <div className="flex justify-center gap-2">
-            <p>Dont have an account?</p>
-            <NavLink to="/register">Register</NavLink>
+          <div className="flex justify-center gap-2 font-bold">
+            <p className=" text-blue-600">or Dont have an account?</p>
+            <NavLink to="/register" className=" text-blue-600">
+              Register
+            </NavLink>
           </div>
         </div>
       </div>

@@ -9,7 +9,6 @@ const Myblogs = lazy(() => import("./Pages/Myblogs"));
 const Register = lazy(() => import("./Authentication/Register"));
 const Login = lazy(() => import("./Authentication/Login"));
 const UpdateBlog = lazy(() => import("./Pages/updateBlog"));
-const Blog = lazy(() => import("./Pages/Blog"));
 const AddBlog = lazy(() => import("./Pages/AddBlog"));
 const AppLayout = lazy(() => import("./AppLayout"));
 const ErrorPage = lazy(() => import("./Pages/ErrorPage"));
@@ -21,7 +20,6 @@ const App = () => {
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/blog" element={<Blog />} />
 
           <Route element={<AdminRoute />}>
             <Route path="/addblog" element={<AddBlog />} />

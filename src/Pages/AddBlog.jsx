@@ -93,67 +93,85 @@ const AddBlog = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div className=" flex flex-col gap-2">
-          <input
-            className=" p-2 border rounded-md "
-            type="text"
-            placeholder="Enter the blog title"
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                title: e.target.value,
-              })
-            }
+    <div className="w-[100%] flex md:flex-row flex-col gap-10 md:gap-0 ">
+      <div className=" flex flex-col items-center gap-5 justify-center  md:w-[50%]">
+        <div className=" text-2xl font-semibold">CREATE BLOG</div>
+        <form onSubmit={handleSubmit} className=" flex flex-col gap-5">
+          <div className=" flex flex-col gap-2">
+            <input
+              className=" p-2 border rounded-md "
+              type="text"
+              placeholder="Enter the blog title"
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  title: e.target.value,
+                })
+              }
+            />
+          </div>
+          <ReactQuill
+            theme="snow"
+            required
+            value={formData.content}
+            onChange={(value) => {
+              setFormData({ ...formData, content: value });
+            }}
           />
-        </div>
-        <ReactQuill
-          theme="snow"
-          required
-          value={formData.content}
-          onChange={(value) => {
-            setFormData({ ...formData, content: value });
-          }}
-        />
 
-        <div>
-          <select
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                category: e.target.value,
-              })
-            }
-          >
-            <option value="">Select a category</option>
-            <option value="Tech">Tech</option>
-            <option value="Sports">Sports</option>
-            <option value="Business">Business</option>
-            <option value="World">World</option>
-          </select>
-        </div>
-        {formData.image && <img src={formData.image} alt="Blog Image" />}
-        <div className=" flex flex-col gap-2">
-          <input
-            className=" p-2 border rounded-md"
-            type="file"
-            accept="image/*"
-            placeholder="Upload an image"
-            onChange={(e) => setFile(e.target.files[0])}
-          />
-          {imageUploadProgress && (
-            <div>Image upload progress: {imageUploadProgress}%</div>
-          )}
-          {imageUploadError && <div>{imageUploadError}</div>}
-          <button onClick={handleUploadImage} type="button">
-            Upload image
+          <div>
+            <select
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  category: e.target.value,
+                })
+              }
+            >
+              <option value="">Select a category</option>
+              <option value="Tech">Tech</option>
+              <option value="Sports">Sports</option>
+              <option value="Business">Business</option>
+              <option value="World">World</option>
+            </select>
+          </div>
+          {formData.image && <img src={formData.image} alt="Blog Image" />}
+          <div className=" flex flex-col gap-2">
+            <input
+              className=" p-2 border rounded-md"
+              type="file"
+              accept="image/*"
+              placeholder="Upload an image"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+            {imageUploadProgress && (
+              <div>Image upload progress: {imageUploadProgress}%</div>
+            )}
+            {imageUploadError && <div>{imageUploadError}</div>}
+            <button
+              onClick={handleUploadImage}
+              className=" bg-blue-400 p-2 rounded-md"
+              type="button"
+            >
+              Upload image
+            </button>
+          </div>
+          <button className=" bg-blue-400 p-2 rounded-md" type="submit">
+            Publish Blog
           </button>
-        </div>
-        <button className=" bg-blue-400 p-2 rounded-md" type="submit">
-          Publish Blog
-        </button>
-      </form>
+        </form>
+      </div>
+      <div className=" md:w-[50%] flex flex-col justify-center md:items-start items-center p-4">
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry's standard dummy text ever
+        since the 1500s, when an unknown printer took a galley of type and
+        scrambled it to make a type specimen book. It has survived not only five
+        centuries, but also the leap into electronic typesetting, remaining
+        essentially unchanged. It was popularised in the 1960s with the release
+        of Letraset sheets containing Lorem Ipsum passages, and more recently
+        with desktop publishing software like Aldus PageMaker including versions
+        of Lorem Ipsum.
+      </div>
     </div>
   );
 };

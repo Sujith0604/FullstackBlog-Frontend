@@ -29,46 +29,38 @@ const Header = () => {
 
   const components = () => {
     return (
-      <ul className="flex flex-col gap-5 px-5 py-5 font-semibold transition-all ease-in duration-500">
+      <ul className="flex flex-col items-start justify-center gap-5 px-5 py-5 font-semibold transition-all ease-in duration-500">
         <NavLink to="/">
-          <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer">
+          <li className=" hover:text-blue-400 duration-500 hover:cursor-pointer">
             HOME
           </li>
         </NavLink>
 
-        <NavLink to="/blog">
-          <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer">
-            BLOG
-          </li>
-        </NavLink>
+        {currentUser.isAdmin && (
+          <NavLink to="/addblog">
+            <li className=" hover:text-blue-400 duration-500 hover:cursor-pointer transition">
+              CREATE
+            </li>
+          </NavLink>
+        )}
 
-        <NavLink to="/addblog">
-          <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer transition">
-            CREATE
-          </li>
-        </NavLink>
-        <NavLink to="/myblog">
-          <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer">
-            MY-BLOGS
-          </li>
-        </NavLink>
         {currentUser ? (
           <>
             <NavLink to="/dashboard">
-              <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer transition">
+              <li className=" hover:text-blue-400 duration-500 hover:cursor-pointer transition">
                 DASHBOARD
               </li>
             </NavLink>
             <img
-              className=" h-[50px] rounded-full "
+              className=" h-[50px] w-[50px] rounded-full "
               src={currentUser.profileImage}
             />
-            <NavLink to={"/dashboard?tab=profile"}>Profile</NavLink>
-            <button onClick={handleLogout}>Logout</button>
+            <NavLink to={"/dashboard?tab=profile"}>PROFILE</NavLink>
+            <button onClick={handleLogout}>LOGOUT</button>
           </>
         ) : (
           <NavLink to="/login">
-            <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer transition">
+            <li className=" hover:text-blue-400 duration-500 hover:cursor-pointer transition">
               LOGIN
             </li>
           </NavLink>
@@ -78,47 +70,49 @@ const Header = () => {
   };
 
   return (
-    <header className="z-10 fixed w-[100%] bg-slate-200">
+    <header className="z-10 fixed w-[100%]  bg-black text-white">
       <nav className=" flex h-[100px] items-center justify-between px-5">
         <section className=" font-bold text-xl">
           <NavLink to="/">BLOG WESITE</NavLink>
         </section>
         <section className="hidden md:flex">
-          <ul className=" flex gap-5 font-semibold">
+          <ul className=" flex gap-5 font-semibold items-center justify-center ">
             <NavLink to="/">
-              <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer transition">
+              <li className=" hover:text-blue-400 duration-500 hover:cursor-pointer transition">
                 HOME
               </li>
             </NavLink>
-            <NavLink to="/blog">
-              <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer transition">
-                BLOG
-              </li>
-            </NavLink>
 
-            <NavLink to="/addblog">
-              <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer transition">
-                CREATE
-              </li>
-            </NavLink>
+            {currentUser.isAdmin && (
+              <NavLink to="/addblog">
+                <li className=" hover:text-blue-400 duration-500 hover:cursor-pointer transition">
+                  CREATE
+                </li>
+              </NavLink>
+            )}
 
             {currentUser ? (
               <>
                 <NavLink to="/dashboard">
-                  <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer transition">
+                  <li className=" hover:text-blue-400 duration-500 hover:cursor-pointer transition">
                     DASHBOARD
                   </li>
                 </NavLink>
                 <img
-                  className=" h-[50px] rounded-full "
+                  className=" h-[50px] w-[50px] rounded-full "
                   src={currentUser.profileImage}
                 />
-                <NavLink to={"/dashboard?tab=profile"}>Profile</NavLink>
-                <button onClick={handleLogout}>Logout</button>
+                <NavLink to={"/dashboard?tab=profile"}>PROFILE</NavLink>
+                <button
+                  className=" px-4 py-2 bg-gray-800 rounded-3xl hover:cursor-pointer hover:bg-gray-500"
+                  onClick={handleLogout}
+                >
+                  LOGOUT
+                </button>
               </>
             ) : (
               <NavLink to="/login">
-                <li className="text-gray-800 hover:text-blue-400 duration-500 hover:cursor-pointer transition">
+                <li className=" hover:text-blue-400 duration-500 hover:cursor-pointer transition">
                   LOGIN
                 </li>
               </NavLink>
