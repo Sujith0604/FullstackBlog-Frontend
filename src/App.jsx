@@ -5,7 +5,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 
 const Dashboard = lazy(() => import("./Pages/Dashboard"));
-const Myblogs = lazy(() => import("./Pages/Myblogs"));
+const BlogPage = lazy(() => import("./Pages/BlogPage"));
 const Register = lazy(() => import("./Authentication/Register"));
 const Login = lazy(() => import("./Authentication/Login"));
 const UpdateBlog = lazy(() => import("./Pages/updateBlog"));
@@ -24,8 +24,7 @@ const App = () => {
           <Route element={<AdminRoute />}>
             <Route path="/addblog" element={<AddBlog />} />
           </Route>
-
-          <Route path="/myblog" element={<Myblogs />} />
+          <Route path="/blog/:slug" element={<BlogPage />} />
           <Route path="/updateblog/:id" element={<UpdateBlog />} />
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
