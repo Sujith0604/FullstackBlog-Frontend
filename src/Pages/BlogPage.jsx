@@ -1,6 +1,7 @@
 import axios from "../utils/axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import CallToAction from "../components/CallToAction";
 
 const BlogPage = () => {
   const { slug } = useParams();
@@ -45,6 +46,8 @@ const BlogPage = () => {
           <p> {new Date(blog.createdAt).toLocaleDateString()}</p>
         </div>
       )}
+      {error && <p className="text-red-500">{error}</p>}
+      <CallToAction />
     </div>
   );
 };

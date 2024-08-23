@@ -1,5 +1,11 @@
+import CallToAction from "../components/CallToAction";
+
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <div>
+      <CallToAction />
+    </div>
+  );
 };
 
 export default Home;
