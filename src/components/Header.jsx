@@ -36,7 +36,7 @@ const Header = () => {
           </li>
         </NavLink>
 
-        {currentUser.isAdmin && (
+        {currentUser?.isAdmin && (
           <NavLink to="/addblog">
             <li className=" hover:text-blue-400 duration-500 hover:cursor-pointer transition">
               CREATE
@@ -73,7 +73,7 @@ const Header = () => {
     <header className="z-10 fixed w-[100%]  bg-black text-white">
       <nav className=" flex h-[100px] items-center justify-between px-5">
         <section className=" font-bold text-xl">
-          <NavLink to="/">BLOG WESITE</NavLink>
+          <NavLink to="/">MERN-STACK BLOG </NavLink>
         </section>
         <section className="hidden md:flex">
           <ul className=" flex gap-5 font-semibold items-center justify-center ">
@@ -83,7 +83,7 @@ const Header = () => {
               </li>
             </NavLink>
 
-            {currentUser.isAdmin && (
+            {currentUser?.isAdmin && (
               <NavLink to="/addblog">
                 <li className=" hover:text-blue-400 duration-500 hover:cursor-pointer transition">
                   CREATE
@@ -104,7 +104,7 @@ const Header = () => {
                 />
                 <NavLink to={"/dashboard?tab=profile"}>PROFILE</NavLink>
                 <button
-                  className=" px-4 py-2 bg-gray-800 rounded-3xl hover:cursor-pointer hover:bg-gray-500"
+                  className=" px-4 py-2 bg-gradient-to-r from-yellow-100 via-yellow-300 to-yellow-500 text-black rounded-3xl hover:cursor-pointer hover:bg-gray-500"
                   onClick={handleLogout}
                 >
                   LOGOUT

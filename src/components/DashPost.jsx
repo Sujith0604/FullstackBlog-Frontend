@@ -90,7 +90,12 @@ const DashPost = () => {
                   <td className="px-6 py-4">
                     {new Date(blog.createdAt).toLocaleDateString()}
                   </td>
-                  <td className="px-6 py-4">{blog.content}</td>
+                  <td
+                    className="px-6 py-4"
+                    dangerouslySetInnerHTML={{
+                      __html: blog.content.substring(0, 30),
+                    }}
+                  ></td>
                   <td className="px-6 py-4">{blog.category}</td>
                   <td className="px-6 py-4">
                     <NavLink to={`/blog/${blog.slug}`}>

@@ -17,7 +17,7 @@ const DashSidebar = () => {
   return (
     <div>
       <aside className=" bg-gray-700 flex flex-col items-center justify-center text-white h-[100px] md:min-h-screen">
-        <ul className=" flex md:flex-col items-center justify-around md:h-[100%] uppercase font-bold text-xl">
+        <ul className=" flex md:flex-col items-center justify-center gap-5 md:h-[100%] uppercase font-bold text-xl">
           <li>
             <NavLink to={"/dashboard?tab=profile"}>
               {tab === "profile" ? (

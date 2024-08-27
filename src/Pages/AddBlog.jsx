@@ -110,15 +110,6 @@ const AddBlog = () => {
               }
             />
           </div>
-          <ReactQuill
-            theme="snow"
-            required
-            value={formData.content}
-            onChange={(value) => {
-              setFormData({ ...formData, content: value });
-            }}
-          />
-
           <div>
             <select
               onChange={(e) =>
@@ -129,13 +120,33 @@ const AddBlog = () => {
               }
             >
               <option value="">Select a category</option>
-              <option value="Tech">Tech</option>
-              <option value="Sports">Sports</option>
-              <option value="Business">Business</option>
-              <option value="World">World</option>
+              <option value="HTML">HTML</option>
+              <option value="CSS">CSS</option>
+              <option value="JAVASCRIPT">JAVASCRIPT</option>
+              <option value="REACTJS">REACTJS</option>
+              <option value="NODEJS">NODEJS</option>
+              <option value="EXPRESSJS">EXPRESSJS</option>
+              <option value="MONGODB">MONGODB</option>
             </select>
           </div>
-          {formData.image && <img src={formData.image} alt="Blog Image" />}
+          <div>
+            <ReactQuill
+              theme="snow"
+              required
+              value={formData.content}
+              onChange={(value) => {
+                setFormData({ ...formData, content: value });
+              }}
+            />
+          </div>
+
+          {formData.image && (
+            <img
+              className=" h-[250px] w-[250px]"
+              src={formData.image}
+              alt="Blog Image"
+            />
+          )}
           <div className=" flex flex-col gap-2">
             <input
               className=" p-2 border rounded-md"
@@ -150,13 +161,16 @@ const AddBlog = () => {
             {imageUploadError && <div>{imageUploadError}</div>}
             <button
               onClick={handleUploadImage}
-              className=" bg-blue-400 p-2 rounded-md"
+              className=" bg-gradient-to-r from-yellow-100 via-yellow-300 to-yellow-500 text-black p-2 rounded-md"
               type="button"
             >
               Upload image
             </button>
           </div>
-          <button className=" bg-blue-400 p-2 rounded-md" type="submit">
+          <button
+            className=" bg-gradient-to-r from-yellow-100 via-yellow-300 to-yellow-500 text-black p-2 rounded-md"
+            type="submit"
+          >
             Publish Blog
           </button>
         </form>

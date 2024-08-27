@@ -35,15 +35,16 @@ const BlogPage = () => {
   }
 
   return (
-    <div>
-      <h1>BLOG</h1>
+    <div className=" flex flex-col items-center justify-center gap-5">
+      <h1 className=" text-4xl font-bold">BLOG</h1>
       {blog && (
-        <div>
-          <h2>{blog.title}</h2>
+        <div className=" flex flex-col gap-5 items-center justify-center px-4">
+          <img className="h-[350px] w-[350px]" src={blog.image} />
+          <h2 className=" text-2xl font-bold">Title: {blog.title}</h2>
+          <h2 className=" text-2xl font-bold">Category: {blog.category}</h2>
           <div dangerouslySetInnerHTML={{ __html: blog.content }}></div>
 
-          <img className="h-[50px] w-[50px]" src={blog.image} />
-          <p> {new Date(blog.createdAt).toLocaleDateString()}</p>
+          <p>Publish: {new Date(blog.createdAt).toLocaleDateString()}</p>
         </div>
       )}
       {error && <p className="text-red-500">{error}</p>}

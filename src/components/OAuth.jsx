@@ -43,7 +43,7 @@ const OAuth = () => {
 
   return (
     <button
-      className=" bg-blue-300 py-2 flex gap-2 items-center justify-center rounded-lg"
+      className=" bg-gradient-to-r from-yellow-100 via-yellow-300 to-yellow-500 text-black  py-2 flex gap-2 items-center justify-center rounded-lg"
       type="button"
       onClick={handleClick}
     >
