@@ -1,5 +1,5 @@
 import axios from "../utils/axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 
 const HomeBlogPage = () => {
@@ -7,8 +7,21 @@ const HomeBlogPage = () => {
   const [blog, setBlog] = useState([]);
   const [error, setErrors] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const [showmore, setShowmore] = useState(true);
+
+  ////filter functionality//////////////
+  const [query, setQuery] = useState("");
+
+  const filteredBlog = useMemo(() => {
+    return blog.filter(
+      (blogs) =>
+        blogs.title.toLowerCase().includes(query.toLowerCase()) ||
+        blogs.content.toLowerCase().includes(query.toLowerCase()) ||
+        blogs.category.toLowerCase().includes(query.toLowerCase()) ||
+        blogs.createdAt.includes(query)
+    );
+  });
+  ///////////////////////////////////////////////
 
   const fetchBlog = async () => {
     try {
@@ -51,10 +64,15 @@ const HomeBlogPage = () => {
   }
 
   return (
-    <div className=" flex flex-col items-center justify-center gap-5">
+    <div className=" flex flex-col items-center justify-center gap-10">
       <div className=" text-4xl font-bold">BLOG'S</div>{" "}
+      <input
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search blog by title...."
+        className=" text-black p-4"
+      />
       <div className=" flex flex-wrap gap-5 items-center justify-center md:justify-between ">
-        {blog.map((item) => (
+        {filteredBlog.map((item) => (
           <div
             key={item._id}
             className=" border p-4 flex flex-col gap-5 items-center justify-center  "

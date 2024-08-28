@@ -37,6 +37,7 @@ const BlogPage = () => {
   return (
     <div className=" flex flex-col items-center justify-center gap-5">
       <h1 className=" text-4xl font-bold">BLOG</h1>
+
       {blog && (
         <div className=" flex flex-col gap-5 items-center justify-center px-4">
           <img className="h-[350px] w-[350px]" src={blog.image} />
